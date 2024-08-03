@@ -5,11 +5,13 @@ import Layout from './components/Layout';
 import AuthLayout from './components/AuthLayout';
 import Login from './auth/Login';
 import SignUp from './auth/SignUp';
-import Dashboard from './pages/Dashboard';
-import Settings from './pages/Settings';
 import Consultation from './pages/Consultation';
 import NotFound from './pages/NotFound';
+import Contact from './pages/Contact';
+import Home from './pages/Home';
+import PharmacyLocator from './pages/PharmacyLocator';
 import './css/index.css';
+import MedicationReminder from './pages/MedicationReminder';
 
 
 const router = createBrowserRouter([
@@ -18,16 +20,24 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: '/',
-        element: <Dashboard />
+        index: true,
+        element: <Home />
       },
       {
-        path: '/settings',
-        element: <Settings />
+        path: '/pharmacylocator',
+        element: <PharmacyLocator />
       },
       {
-        path: '/consultation',
+        path: '/medicationreminder',
+        element: <MedicationReminder />
+      },
+      {
+        path: 'consultation',
         element: <Consultation />
+      },
+      {
+        path: 'contacts',
+        element: <Contact />
       }
     ]
   },
@@ -36,20 +46,21 @@ const router = createBrowserRouter([
     element: <AuthLayout />,
     children: [
       {
-        path: '/auth/login',
+        path: 'login',
         element: <Login />
       },
       {
-        path: '/auth/register',
+        path: 'register',
         element: <SignUp />
       }
     ]
   },
   {
     path: '*',
-    element: <NotFound/>
+    element: <NotFound />
   }
 ]);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
