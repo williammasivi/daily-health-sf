@@ -19,6 +19,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import mainConfig from "../config/main.config";
 
 export default function Login() {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -26,7 +27,7 @@ export default function Login() {
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:8000/auth/signin', {
+            const response = await axios.post(`${mainConfig}/auth/signin`, {
                 userEmail: data.userEmail,
                 userPassword: data.userPassword,
                 userName: data.userName,

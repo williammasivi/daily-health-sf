@@ -1,18 +1,18 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER', 'DOCTOR');
 
-  - You are about to drop the column `role` on the `user` table. All the data in the column will be lost.
-  - You are about to drop the column `updated` on the `user` table. All the data in the column will be lost.
-  - You are about to drop the column `user_description` on the `user` table. All the data in the column will be lost.
+-- CreateTable
+CREATE TABLE "user" (
+    "user_id" TEXT NOT NULL,
+    "user_name" TEXT NOT NULL,
+    "user_email" TEXT NOT NULL,
+    "user_avatar_url" TEXT,
+    "user_password" TEXT NOT NULL,
+    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "role" "Role" NOT NULL DEFAULT 'USER',
 
-*/
--- AlterEnum
-ALTER TYPE "Role" ADD VALUE 'DOCTOR';
-
--- AlterTable
-ALTER TABLE "user" DROP COLUMN "role",
-DROP COLUMN "updated",
-DROP COLUMN "user_description";
+    CONSTRAINT "user_pkey" PRIMARY KEY ("user_id")
+);
 
 -- CreateTable
 CREATE TABLE "doctor" (
@@ -21,6 +21,9 @@ CREATE TABLE "doctor" (
     "doctor_email" TEXT NOT NULL,
     "doctor_description" TEXT NOT NULL,
     "doctor_phone_number" TEXT NOT NULL,
+    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "doctor_password" TEXT NOT NULL,
+    "role" "Role" NOT NULL DEFAULT 'DOCTOR',
 
     CONSTRAINT "doctor_pkey" PRIMARY KEY ("doctor_id")
 );
@@ -35,6 +38,9 @@ CREATE TABLE "horaire" (
 
     CONSTRAINT "horaire_pkey" PRIMARY KEY ("horaire_id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "user_user_email_key" ON "user"("user_email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "doctor_doctor_id_key" ON "doctor"("doctor_id");

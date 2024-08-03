@@ -16,6 +16,7 @@
  */
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import mainConfig from "../config/main.config";
 
 export default function SignUp() {
    const { register, handleSubmit, formState: { errors } } = useForm();
@@ -23,7 +24,7 @@ export default function SignUp() {
 
    const onSubmit = async (data) => {
       try {
-         const response = await fetch('http://localhost:8000/api/users', {
+         const response = await fetch(`${mainConfig}/api/users`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json'
