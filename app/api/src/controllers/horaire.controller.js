@@ -19,40 +19,34 @@ import isValidInput from '../utils/isValidInput.js';
 import client from "../client.js";
 
 
-export default class UserController {
+export default class HoraireController {
 
    static async create(req, res) {
       const {
          horaireTitle,
-         horaireDescription,
-         repetitionJour,
          heures
       } = req.body;
       try {
-         if (!isValidInput(horaireTitle) || !isValidInput(horaireDescription) || !isValidInput(repetitionJour) || !isValidInput(heures)) {
+         if (!isValidInput(horaireTitle) || !isValidInput(heures)) {
             res.send('all fields are required!');
             return;
          }
          const horaire = await HoraireModel.create({
             data: {
-               horaireDescription: horaireDescription,
-               horaireTitle: horaireTitle,
-               heures: heures,
-               repetitionJour: repetitionJour
+               horaireTitle,
+               heures
             }
          });
          if (!horaire) {
             res.send('Unable to create a schedule');
          }
-         res.status(201).json({
+         res.status(200).json({
             status: "created",
             message: "Registration successful",
             data: {
                horaireId: horaire.horaireId,
-               horaireTitle: horaire.horaireTitle,
-               horaireDescription: horaireDescription,
-               repetitionJour: horaire.repetitionJour,
-               heures: horaire.heures
+               horaireTitle: horaireTitle,
+               heures: heures,
             }
          });
       } catch (error) {
@@ -75,7 +69,7 @@ export default class UserController {
       ===================================================================================
       */
       try {
-         const allHoraires = HoraireModel.findMany();
+         const allHoraires = await HoraireModel.findMany();
          if (!allHoraires) {
             res.send('cannot retrieve all schedules!');
             return;
@@ -83,7 +77,7 @@ export default class UserController {
          res.status(200).json({
             status: "OK",
             message: 'retrieve all schedules succesfully',
-            horaires: allUsers,
+            horaires: allHoraires,
          });
       } catch (error) {
          res.status(400).json({
@@ -163,15 +157,13 @@ export default class UserController {
 
    static async remove(req, res) {
       try {
-         const user = req.profile;
-         await userSchema.delete({
+         const { id } = req.params;
+         await HoraireModel.delete({
             where: {
-               userId: user.userId
+               horaireId: id
             }
-         });
-         user.userPassword = undefined;
-         user.role = null;
-         res.json(user);
+         })
+         res.send("Delete successfully");
       } catch (error) {
          res.status(400).json({
             statusCode: 400,

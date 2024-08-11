@@ -1,45 +1,96 @@
-/**
- * @license
- * Copyright 2024 William Masivi, sofia and Contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import tada from '../assets/sounds/Stand Still _ Step Up_ High Water (Official Soundtrack)(MP3_160K).mp3';
 import { FaPills, FaPlusCircle } from 'react-icons/fa';
+import DisplayHoraire from '../components/ui/DisplayHoraire';
+import DisplayHoraireSkeleton from '../components/ui/DisplayHoraireSkeleton';
 
 const MedicationReminder = () => {
   const [reminders, setReminders] = useState([]);
-  const [medication, setMedication] = useState('');
-  const [time, setTime] = useState('');
+  const [horaireTitle, setHoraireTitle] = useState('');
+  const [heures, setHeures] = useState('');
 
-  const addReminder = () => {
-    if (medication && time) {
-      setReminders([...reminders, { medication, time }]);
-      setMedication('');
-      setTime('');
+  // Load reminders from API
+  useEffect(() => {
+    async function loadHoraire() {
+      try {
+        const resp = await axios.get('http://localhost:3000/api/horaires');
+        const result = await resp.data;
+        setReminders(result.horaires.map((reminder) => ({ ...reminder, triggered: false })));
+      } catch (e) {
+        console.error("Failed to load reminders:", e);
+      }
+    }
+    loadHoraire();
+  }, []);
+
+  // Check the time every second
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const now = new Date();
+      const currentTime = now.toTimeString().slice(0, 5); // Use HH:MM format
+
+      reminders.forEach((reminder, index) => {
+        if (reminder.heures === currentTime && !reminder.triggered) {
+          playSound();
+          setReminders((prevReminders) => {
+            const updatedReminders = [...prevReminders];
+            updatedReminders[index] = { ...reminder, triggered: true };
+            return updatedReminders;
+          });
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [reminders]);
+
+  // Play the reminder sound
+  const playSound = () => {
+    const alertSound = document.getElementById("alertSound");
+    if (alertSound) {
+      alertSound.play().catch((error) => {
+        console.error("Audio playback failed:", error);
+      });
+    }
+  };
+
+  // Add new reminder
+  const addReminder = async () => {
+    if (horaireTitle && heures) {
+      const newReminder = { horaireTitle, heures, triggered: false };
+      setReminders([...reminders, newReminder]);
+      setHoraireTitle('');
+      setHeures('');
+      
+      try {
+        await axios.post('http://localhost:3000/api/horaires', newReminder);
+      } catch (error) {
+        console.error("Failed to add reminder:", error);
+      }
+    }
+  };
+
+  const deleteHoraire = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/horaires/${id}`);
+      setReminders(reminders.filter(reminder => reminder.horaireId !== id));
+    } catch (error) {
+      console.error("Failed to delete reminder:", error);
     }
   };
 
   return (
     <div className="bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 p-8 rounded-lg shadow-lg text-black max-w-lg mx-auto mt-12">
+      <audio className='hidden' id="alertSound" src={tada} preload="auto"></audio>
       <h2 className="text-3xl font-bold mb-6 text-green-700">Medication Reminder</h2>
       <div className="mb-6">
         <label htmlFor="medication" className="block text-sm font-medium">Medication Name</label>
         <input
           type="text"
           id="medication"
-          value={medication}
-          onChange={(e) => setMedication(e.target.value)}
+          value={horaireTitle}
+          onChange={(e) => setHoraireTitle(e.target.value)}
           className="mt-1 p-3 w-full bg-gray-200 border border-gray-400 rounded"
         />
       </div>
@@ -48,8 +99,8 @@ const MedicationReminder = () => {
         <input
           type="time"
           id="time"
-          value={time}
-          onChange={(e) => setTime(e.target.value)}
+          value={heures}
+          onChange={(e) => setHeures(e.target.value)}
           className="mt-1 p-3 w-full bg-gray-200 border border-gray-400 rounded"
         />
       </div>
@@ -60,17 +111,21 @@ const MedicationReminder = () => {
         <FaPlusCircle className="mr-2" /> Add Reminder
       </button>
       <ul className="mt-8 space-y-4">
-        {reminders.map((reminder, index) => (
-          <li key={index} className="bg-gray-200 p-5 rounded flex justify-between items-center">
-            <div>
-              <h3 className="text-xl font-bold">{reminder.medication}</h3>
-              <p className="text-sm">{reminder.time}</p>
-            </div>
-            <FaPills size={24} className="text-green-700" />
-          </li>
-        ))}
+        {
+          reminders.length === 0 ? (
+            'abcdeff'.split('').map((item, i) => <DisplayHoraireSkeleton key={i} />)
+          ) : (
+            reminders.map((reminder, index) => (
+              <DisplayHoraire
+                key={reminder.horaireId || index}
+                medication={reminder.horaireTitle}
+                time={reminder.heures}
+                handleDelete={() => deleteHoraire(reminder.horaireId || 'not found')}
+              />
+            ))
+          )
+        }
       </ul>
-    
     </div>
   );
 };

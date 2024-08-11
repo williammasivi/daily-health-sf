@@ -17,6 +17,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import mainConfig from "../config/main.config";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignUp() {
    const { register, handleSubmit, formState: { errors } } = useForm();
@@ -24,7 +26,7 @@ export default function SignUp() {
 
    const onSubmit = async (data) => {
       try {
-         const response = await fetch(`${mainConfig}/api/users`, {
+         const response = await fetch(`${mainConfig}api/users`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json'
@@ -33,14 +35,14 @@ export default function SignUp() {
          });
 
          if (!response.ok) {
-            throw new Error('Failed to post user');
+            toast.error("Impassible de creer l'utilisateur");
          }
 
          const result = await response.json();
          console.log('User created:', result);
          navigate('/auth/login');  // Redirect to login page after successful registration
       } catch (error) {
-         console.error('Error:', error);
+         toast.error(error.message);
       }
    };
 
@@ -175,6 +177,7 @@ export default function SignUp() {
                </div>
             </div>
          </div>
+         <ToastContainer />
       </div>
    );
 }

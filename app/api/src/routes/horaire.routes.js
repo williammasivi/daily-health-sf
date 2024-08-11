@@ -15,13 +15,17 @@
  * limitations under the License.
  */
 import { Router } from "express";
+import HoraireController from "../controllers/horaire.controller.js";
+
 
 const router = Router();
 
+router.route('/api/horaires/:id')
+   .delete(HoraireController.remove);
 
-router.route('/api/horaires', function (req, res) {
-   res.send('all doctors');
-});
+router.route('/api/horaires')
+   .post(HoraireController.create)
+   .get(HoraireController.list);
 
 
 export default router;
