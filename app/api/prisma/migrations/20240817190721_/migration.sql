@@ -32,11 +32,21 @@ CREATE TABLE "doctor" (
 CREATE TABLE "horaire" (
     "horaire_id" TEXT NOT NULL,
     "horaire_title" TEXT NOT NULL,
-    "horaire_description" TEXT NOT NULL,
-    "repetition_jour" INTEGER NOT NULL,
     "heures" TEXT NOT NULL,
 
     CONSTRAINT "horaire_pkey" PRIMARY KEY ("horaire_id")
+);
+
+-- CreateTable
+CREATE TABLE "Image" (
+    "id" TEXT NOT NULL,
+    "filename" TEXT NOT NULL,
+    "mimetype" TEXT NOT NULL,
+    "size" INTEGER NOT NULL,
+    "data" BYTEA NOT NULL,
+    "created" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Image_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -50,3 +60,6 @@ CREATE UNIQUE INDEX "doctor_doctor_email_key" ON "doctor"("doctor_email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "horaire_horaire_id_key" ON "horaire"("horaire_id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Image_id_key" ON "Image"("id");
