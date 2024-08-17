@@ -24,8 +24,8 @@ import userRouter from './routes/user.routes.js';
 import authRouter from './routes/auth.routes.js';
 import doctorRouter from './routes/doctor.routes.js';
 import horaireRouter from './routes/horaire.routes.js';
-import client from './client.js';
-import multer from 'multer';
+// import client from './client.js';
+// import multer from 'multer';
 
 const app = express();
 app.use(express.json());
@@ -41,43 +41,43 @@ app.get('*', notFound);
 
 // upload image to the db
 
-app.post('/upload', upload.single('image'), async (req, res) => {
-  try {
-    const { originalname, mimetype, size, buffer } = req.file;
+// app.post('/upload', upload.single('image'), async (req, res) => {
+//   try {
+//     const { originalname, mimetype, size, buffer } = req.file;
 
-    const image = await client.image.create({
-      data: {
-        filename: originalname,
-        mimetype,
-        size,
-        data: buffer,
-      },
-    });
+//     const image = await client.image.create({
+//       data: {
+//         filename: originalname,
+//         mimetype,
+//         size,
+//         data: buffer,
+//       },
+//     });
 
-    res.status(201).json(image);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to upload image' });
-  }
-});
+//     res.status(201).json(image);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Failed to upload image' });
+//   }
+// });
 
-app.get('/images/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const image = await prisma.image.findUnique({
-      where: { id: id },
-    });
+// app.get('/images/:id', async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const image = await prisma.image.findUnique({
+//       where: { id: id },
+//     });
 
-    if (!image) {
-      return res.status(404).json({ error: 'Image not found' });
-    }
+//     if (!image) {
+//       return res.status(404).json({ error: 'Image not found' });
+//     }
 
-    res.set('Content-Type', image.mimetype);
-    res.send(image.data);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to retrieve image' });
-  }
-});
+//     res.set('Content-Type', image.mimetype);
+//     res.send(image.data);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Failed to retrieve image' });
+//   }
+// });
 
 export default app;
