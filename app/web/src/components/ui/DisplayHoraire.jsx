@@ -2,7 +2,7 @@ import { FaPills } from "react-icons/fa";
 import { AiOutlineDelete } from 'react-icons/ai';
 export default function DisplayHoraire({ medication, time, handleDelete }) {
    return (
-      <li className="bg-gray-200 p-5 rounded flex justify-between items-center">
+      <li className="p-5 border-gray-200 border bg-white rounded flex justify-between items-center">
          <div>
             <h3 className="text-xl font-bold">{medication}</h3>
             <p className="text-sm">{time}</p>

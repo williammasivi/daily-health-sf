@@ -81,17 +81,17 @@ const MedicationReminder = () => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300 p-8 rounded-lg shadow-lg text-black max-w-lg mx-auto mt-12">
+    <div className="p-8 rounded-lg shadow-lg text-black max-w-lg mx-auto mt-4 border border-gray-200">
       <audio className='hidden' id="alertSound" src={tada} preload="auto"></audio>
-      <h2 className="text-3xl font-bold mb-6 text-green-700">Medication Reminder</h2>
-      <div className="mb-6">
+      <h2 className="text-3xl font-bold mb-6">Medication Reminder</h2>
+      <div className="">
         <label htmlFor="medication" className="block text-sm font-medium">Medication Name</label>
         <input
           type="text"
           id="medication"
           value={horaireTitle}
           onChange={(e) => setHoraireTitle(e.target.value)}
-          className="mt-1 p-3 w-full bg-gray-200 border border-gray-400 rounded"
+          className="mt-1 p-3 w-full bg-white border border-gray-200 rounded"
         />
       </div>
       <div className="mb-6">
@@ -101,12 +101,12 @@ const MedicationReminder = () => {
           id="time"
           value={heures}
           onChange={(e) => setHeures(e.target.value)}
-          className="mt-1 p-3 w-full bg-gray-200 border border-gray-400 rounded"
+          className="mt-1 p-3 w-full border border-gray-200 rounded"
         />
       </div>
       <button
         onClick={addReminder}
-        className="bg-green-600 hover:bg-green-700 text-white py-3 px-5 rounded flex items-center"
+        className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-5 rounded flex items-center"
       >
         <FaPlusCircle className="mr-2" /> Add Reminder
       </button>

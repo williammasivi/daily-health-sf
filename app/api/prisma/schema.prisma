@@ -15,8 +15,6 @@
 //  * limitations under the License.
 //  */
 
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -45,6 +43,7 @@ model User {
   created       DateTime @default(now())
   role          Role     @default(USER)
 
+  // Image Image[] @relation(fields: [userAvatarURL], references: [])
   @@map("user")
 }
 
@@ -66,9 +65,20 @@ model Doctor {
 // model horaire
 
 model Horaire {
-  horaireId          String @id @unique @default(uuid()) @map("horaire_id")
-  horaireTitle       String @map("horaire_title")
-  heures             String
+  horaireId    String @id @unique @default(uuid()) @map("horaire_id")
+  horaireTitle String @map("horaire_title")
+  heures       String
 
   @@map("horaire")
+}
+
+// model image
+
+model Image {
+  id       String   @id @unique @default(uuid())
+  filename String
+  mimetype String
+  size     Int
+  data     Bytes
+  created  DateTime @default(now())
 }

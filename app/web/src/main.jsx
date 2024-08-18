@@ -16,9 +16,9 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import Layout from './components/Layout';
-import AuthLayout from './components/AuthLayout';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './components/layouts/Layout';
+import AuthLayout from './components/layouts/AuthLayout';
 import Login from './auth/Login';
 import SignUp from './auth/SignUp';
 import Consultation from './pages/Consultation';
@@ -26,8 +26,8 @@ import NotFound from './pages/NotFound';
 import Contact from './pages/Contact';
 import Home from './pages/Home';
 import PharmacyLocator from './pages/PharmacyLocator';
-import './css/index.css';
 import MedicationReminder from './pages/MedicationReminder';
+import './css/index.css';
 
 
 const router = createBrowserRouter([
