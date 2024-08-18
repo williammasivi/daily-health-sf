@@ -113,7 +113,8 @@ const MedicationReminder = () => {
       <ul className="mt-8 space-y-4">
         {
           reminders.length === 0 ? (
-            'abcdeff'.split('').map((item, i) => <DisplayHoraireSkeleton key={i} />)
+            'ab'.split('')
+            .map((item, i) => <DisplayHoraireSkeleton key={i} />)
           ) : (
             reminders.map((reminder, index) => (
               <DisplayHoraire

@@ -19,14 +19,14 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layouts/Layout';
 import AuthLayout from './components/layouts/AuthLayout';
-import Login from './auth/Login';
-import SignUp from './auth/SignUp';
+import LoginPage from './pages/LoginPage';
 import Consultation from './pages/Consultation';
 import NotFound from './pages/NotFound';
 import Contact from './pages/Contact';
 import Home from './pages/Home';
 import PharmacyLocator from './pages/PharmacyLocator';
 import MedicationReminder from './pages/MedicationReminder';
+import RegisterPage from './pages/RegisterPage';
 import './css/index.css';
 
 
@@ -58,16 +58,16 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: '/auth',
+    path: '/',
     element: <AuthLayout />,
     children: [
       {
-        path: 'login',
-        element: <Login />
+        path: '/login',
+        element: <LoginPage />
       },
       {
-        path: 'register',
-        element: <SignUp />
+        path: '/register',
+        element: <RegisterPage />
       }
     ]
   },
