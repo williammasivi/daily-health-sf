@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
+import registerImage from '/signin-image.webp';
+
 export default function RegisterForm() {
   return (
     <div class="font-[sans-serif] bg-white md:h-screen">
       <div class="grid md:grid-cols-2 items-center gap-8 h-full">
         <div class="max-md:order-1 p-4 bg-gray-50 h-full">
-          <img src="https://readymadeui.com/signin-image.webp" class="lg:max-w-[90%] w-full h-full object-contain block mx-auto" alt="login-image" />
+          <img src={registerImage} class="lg:max-w-[90%] w-full h-full object-contain block mx-auto" alt="login-image" />
         </div>
 
         <div class="flex items-center p-6 h-full w-full">
@@ -59,7 +62,7 @@ export default function RegisterForm() {
               <button type="button" class="w-full py-3 px-6 text-sm tracking-wider font-semibold rounded-md bg-blue-600 hover:bg-blue-700 text-white focus:outline-none">
                 Create an account
               </button>
-              <p class="text-sm mt-6 text-gray-800">Already have an account? <a href="javascript:void(0);" class="text-blue-500 font-semibold hover:underline ml-1">Login here</a></p>
+              <p class="text-sm mt-6 text-gray-800">Already have an account? <Link to="/login" className="text-blue-500 font-semibold hover:underline ml-1">Login here</Link></p>
             </div>
           </form>
         </div>
