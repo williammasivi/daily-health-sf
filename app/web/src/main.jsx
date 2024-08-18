@@ -27,6 +27,7 @@ import Home from './pages/Home';
 import PharmacyLocator from './pages/PharmacyLocator';
 import MedicationReminder from './pages/MedicationReminder';
 import RegisterPage from './pages/RegisterPage';
+import Settings from './pages/Settings';
 import './css/index.css';
 
 
@@ -52,9 +53,14 @@ const router = createBrowserRouter([
         element: <Consultation />
       },
       {
+        path: 'settings',
+        element: <Settings />
+      },
+      {
         path: 'contacts',
         element: <Contact />
-      }
+      },
+     
     ]
   },
   {
@@ -69,8 +75,10 @@ const router = createBrowserRouter([
         path: '/register',
         element: <RegisterPage />
       }
+     
     ]
   },
+  
   {
     path: '*',
     element: <NotFound />
