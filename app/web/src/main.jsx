@@ -29,6 +29,7 @@ import MedicationReminder from './pages/MedicationReminder';
 import RegisterPage from './pages/RegisterPage';
 import Settings from './pages/Settings';
 import './css/index.css';
+import Test from './components/ui/Test';
 
 
 const router = createBrowserRouter([
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
         path: 'contacts',
         element: <Contact />
       },
+      {
+        path: 'test',
+        element: <Test />
+      }
      
     ]
   },
@@ -75,10 +80,8 @@ const router = createBrowserRouter([
         path: '/register',
         element: <RegisterPage />
       }
-     
     ]
   },
-  
   {
     path: '*',
     element: <NotFound />

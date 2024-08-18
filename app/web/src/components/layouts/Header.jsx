@@ -16,6 +16,7 @@
  */
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
+import { IoNotifications } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 
 export default function Header() {
@@ -41,7 +42,12 @@ export default function Header() {
 
         {/* Avatar */}
 
-
+        <div>
+          <IoNotifications
+            size={40}
+            color='#000'
+          />
+        </div>
         <div className="relative">
           <FaUserCircle
             className="w-10 h-10 cursor-pointer fill-gray-900"
