@@ -17,6 +17,7 @@
 import React, { useState } from 'react';
 import Footer from '../components/layouts/Footer';
 import { FaUserCircle } from 'react-icons/fa';
+import SearchBar from '../components/ui/SearchBar';
 
 const doctors = [
    { id: 'doctor1', name: 'Dr. John Doe', specialty: 'Cardiologist', description: 'Specializes in heart health and cardiovascular diseases.' },
@@ -59,12 +60,8 @@ export default function Consultation() {
                <h2 className="text-4xl font-bold">Consultation Medicale</h2>
 
                {/* Search Bar */}
-               <div className="flex justify-center py-6">
-                  <input
-                     type="text"
-                     placeholder="Search for doctors..."
-                     className="mt-1 p-3 block w-full max-w-lg border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
+               <div className='py-5'>
+                  <SearchBar />
                </div>
 
                {/* Doctors List */}
