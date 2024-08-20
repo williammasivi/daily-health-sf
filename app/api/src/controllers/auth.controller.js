@@ -25,6 +25,7 @@ import { authenticate } from "../models/user.model.js";
 export default class AuthController {
    static async signin(req, res) {
       const { userEmail, userPassword } = req.body;
+      console.log(userEmail, userPassword);
       try {
          const user = await userSchema.findUnique({
             where: {
@@ -76,5 +77,23 @@ export default class AuthController {
    static hasAuthorization(_, __, next) {
       console.log('has authorization');
       next();
+   }
+
+   static validateToken(req, res) {
+      const token = req.headers['authorization']?.split(' ')[1];
+
+      if (!token) {
+         res.status(401).json({ valid: false, message: 'No token provided' });
+         return;
+      }
+
+      jwt.verify(token, mainConfig.jwtSecret, (err, decoded) => {
+         if (err) {
+            return res.status(401).json({ valid: false, message: 'Invalid token' });
+         }
+
+         // Token is valid, return success
+         return res.status(200).json({ valid: true, userId: decoded.id });
+      });
    }
 }

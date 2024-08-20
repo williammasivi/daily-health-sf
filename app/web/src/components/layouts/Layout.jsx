@@ -17,8 +17,9 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
-
+import useAuth from '../../hooks/useAuth';
 export default function Layout() {
+   useAuth();
    return (
       <div className="h-screen overflow-hidden">
          <Header />

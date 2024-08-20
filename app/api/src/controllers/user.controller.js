@@ -17,7 +17,9 @@
 import userSchema from "../models/user.model.js";
 import isValidEmail from '../utils/isValidEmail.js';
 import isValidInput from '../utils/isValidInput.js';
+import mainConfig from "../config/config.js";
 import isValidPassword from '../utils/isValidPassword.js';
+import jwt from 'jsonwebtoken';
 import { encryptPassword } from "../models/user.model.js";
 import client from "../client.js";
 
@@ -38,10 +40,10 @@ export default class UserController {
             res.status(400).json({ message: 'Enter a name' });
             return;
          }
-         if (!isValidPassword(userPassword)) {
-            res.status(400).json({ message: 'The password must be at least 6 characters long, must contain at least one letter, must contain at least one number and must not be an empty string' });
-            return;
-         }
+         // if (!isValidPassword(userPassword)) {
+         //    res.status(400).json({ message: 'The password must be at least 6 characters long, must contain at least one letter, must contain at least one number and must not be an empty string' });
+         //    return;
+         // }
          /**
           * hash password in order to store it in the data
           * warning: Don't store plain text into a database
@@ -50,11 +52,14 @@ export default class UserController {
          const user = await userSchema.create({
             data: { userEmail, userPassword: hashPassword, userName },
          });
+         const token = jwt.sign({ userId: user.userId }, mainConfig.jwtSecret);
+         // const delaisExpirationCookie = new Date().getMilliseconds() + 9999999; I cannot extend times as I want
+         res.cookie('accesstoken', token, { expires: new Date() });
          res.status(201).json({
             status: "created",
             message: "Registration successful",
             data: {
-               // accessToken: ,
+               accessToken: token,
                userId: user.userId,
                userName: user.userName,
                userEmail: user.userEmail
