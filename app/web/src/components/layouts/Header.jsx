@@ -42,12 +42,12 @@ export default function Header() {
 
         {/* Avatar */}
 
-        <div>
+{/*         <div>
           <IoNotifications
             size={40}
             color='#000'
           />
-        </div>
+        </div> */}
         <div className="relative">
           <FaUserCircle
             className="w-10 h-10 cursor-pointer fill-gray-900"
